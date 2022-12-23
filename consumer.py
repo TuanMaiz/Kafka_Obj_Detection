@@ -8,6 +8,16 @@ import torch
 import numpy as np
 import time
 import os
+import socketio
+import asyncio
+#socket io part
+sio = socketio.AsyncClient()
+@sio.event
+async def connect():
+    print('connected to websocket server')
+@sio.event
+async def disconnect():
+    print('disconnected from server')
 
 # Check if consumer is none or not
 def filterNone(consumer):
@@ -103,6 +113,8 @@ if __name__ == "__main__":
                     msg = decodeFromRaw(msg.value())
                     results = score_frame(msg["img"])
                     frame = plot_boxes(results, msg["img"])
+                    #frame will be sent to websocket here
+
                     # --
                     end_time = time.perf_counter()
 
