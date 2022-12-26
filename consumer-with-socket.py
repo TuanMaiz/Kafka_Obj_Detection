@@ -26,8 +26,9 @@ def consume(consumer):
         else:
             msg = decodeFromRaw(msg.value())
             #encode to base64 then send to websocket server
-            frame_b64 = base64.b64encode(msg["frame"]).decode('utf-8')
-            sio.emit('send-frame', {'frame': frame_b64}) #send to websocket
+            # frame_b64 = base64.b64encode(msg["frame"]).decode('utf-8')
+            # sio.emit('send-frame', {'frame': frame_b64}) #send to websocket
+            sio.emit('send-packet', msg)
             cv2.imshow(f"camera {args.partition}", msg["img"])
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
